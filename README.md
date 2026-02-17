@@ -136,9 +136,9 @@ Mockito for mocking repositories
 ### 1️⃣ Clone repository
 git clone https://github.com/your-username/collaborative-task-management-api.git
 ### 2️⃣ Configure database
+Update application.yml:
 <pre>
-Update application.yml:<br>
-spring:<br>
+spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/taskdb
     username: your_user
