@@ -1,4 +1,4 @@
-# Collaborative Task Management API
+# Project Management API
 
 Secure REST API for collaborative project and task management built with Spring Boot.  
 The system supports multi-user project collaboration, role-based access control and JWT authentication.
