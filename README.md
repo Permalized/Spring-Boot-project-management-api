@@ -136,27 +136,28 @@ Mockito for mocking repositories
 ### 1️⃣ Clone repository
 git clone https://github.com/your-username/collaborative-task-management-api.git
 ### 2️⃣ Configure database
-Update application.yml:
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/taskdb
-    username: your_user
-    password: your_password
+Update application.yml:<br>
+spring:<br>
+  datasource:<br>
+    url: jdbc:postgresql://localhost:5432/taskdb<br>
+    username: your_user<br>
+    password: your_password<br>
 Or use H2 for development.
 ### 3️⃣ Run
-mvn spring-boot:run
-📖 API Documentation
-Swagger UI available at:
+mvn spring-boot:run<br>
+📖 API Documentation<br>
+Swagger UI available at:<br>
 http://localhost:8080/swagger-ui.html
 
-🎯 Design Decisions
+---
+## 🎯 Design Decisions
 -Explicit join entity instead of simple ManyToMany
 -DTO-based API (entities are not exposed)
 -Centralized exception handling
 -Authorization checks in service layer
 -Clear separation of concerns
-
-📌 Future Improvements
+---
+## 📌 Future Improvements
 -Pagination & sorting
 -Audit logging
 -Docker support
