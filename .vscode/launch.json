@@ -2,11 +2,11 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-TaskManagerApplication<taskManager>",
+            "name": "Spring Boot-ProjectManagementAPIApplication<ProjectManagementAPI>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.projects.taskManager.TaskManagerApplication",
-            "projectName": "taskManager",
+            "mainClass": "com.projects.ProjectManagementAPI.ProjectManagementAPIApplication",
+            "projectName": "ProjectManagementAPI",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
