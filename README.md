@@ -125,19 +125,16 @@ Standardized error response format:
   "timestamp": "2026-02-17T12:00:00"
 }
 ```
-🧪 Testing
-
-Unit tests for service layer
-
-Exception scenario testing
-
-Basic integration tests
+##🧪 Testing
+-Unit tests for service layer
+-Exception scenario testing
+-Basic integration tests
 
 Mockito for mocking repositories
-▶️ Running the Application
-1️⃣ Clone repository
+##▶️ Running the Application
+###1️⃣ Clone repository
 git clone https://github.com/your-username/collaborative-task-management-api.git
-2️⃣ Configure database
+###2️⃣ Configure database
 Update application.yml:
 spring:
   datasource:
@@ -145,7 +142,7 @@ spring:
     username: your_user
     password: your_password
 Or use H2 for development.
-3️⃣ Run
+###3️⃣ Run
 mvn spring-boot:run
 📖 API Documentation
 Swagger UI available at:
