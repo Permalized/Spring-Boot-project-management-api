@@ -1,0 +1,89 @@
+### Register User
+
+# @name registerAPI
+POST http://localhost:8080/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Ali",
+  "lastName": "Bouali",
+  "email":  "alibou@mail.com",
+  "password": "password",
+  "role":  "ADMIN"
+}
+###
+@authtoken={{registerAPI.response.body.access_token}}
+
+### Authenticate User
+# @name authenticateAPI
+POST http://localhost:8080/api/v1/auth/authenticate
+Content-Type: application/json
+
+{
+  "email":  "alibou@mail.com",
+  "password": "password"
+}
+###
+@authtoken={{authenticateAPI.response.body.access_token}}
+
+### Create a new project(set automatically the authenticated user as the owner of the project)
+POST http://localhost:8080/api/v1/projects
+Content-Type: application/json
+Authorization: Bearer {{authtoken}}
+
+{
+  "name": "Project 1",
+  "description": "Project Description"
+
+}
+### Create a new project task 
+POST http://localhost:8080/api/v1/projects/1/tasks
+Content-Type: application/json
+Authorization: Bearer {{authtoken}}
+
+{
+  "title_name": "Task 2",
+  "description": "Task Description",
+  "status": "TODO",
+  "priority": "HIGH"
+  
+}
+
+### Add a member to the project
+POST http://localhost:8080/api/v1/projects/1/members
+Content-Type: application/json
+Authorization: Bearer {{authtoken}}
+
+{
+  "email": "admin@mail.com",
+  "role":"MEMBER"
+}
+
+### Assign the task with id 1 to the member with email: alibou@mail.com
+PATCH http://localhost:8080/api/v1/tasks/1/assign
+Content-Type: application/json
+Authorization: Bearer {{authtoken}}
+
+{
+  "email": "alibou@mail.com"
+}
+
+### Get a project's list of tasks
+GET http://localhost:8080/api/v1/projects/1/tasks
+Content-Type: application/json
+Authorization: Bearer {{authtoken}}
+
+### Get a project's list of members
+GET http://localhost:8080/api/v1/projects/1/members
+Content-Type: application/json
+Authorization: Bearer {{authtoken}}
+
+### Delete a project task
+DELETE http://localhost:8080/api/v1/tasks/1
+Content-Type: application/json
+Authorization: Bearer {{authtoken}}
+
+### Delete a project
+DELETE http://localhost:8080/api/v1/projects/1
+Content-Type: application/json
+Authorization: Bearer {{authtoken}}
