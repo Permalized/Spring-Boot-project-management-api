@@ -12,10 +12,10 @@ import com.projects.taskManager.user.Role;
 
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorAwareBean")
-public class SecurityApplication {
+public class TaskManagerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SecurityApplication.class, args);
+		SpringApplication.run(TaskManagerApplication.class, args);
 	}
 
 		@Bean
