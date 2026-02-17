@@ -136,6 +136,7 @@ Mockito for mocking repositories
 ### 1️⃣ Clone repository
 git clone https://github.com/your-username/collaborative-task-management-api.git
 ### 2️⃣ Configure database
+<pre>
 Update application.yml:<br>
 spring:<br>
   datasource:<br>
@@ -143,6 +144,7 @@ spring:<br>
     username: your_user<br>
     password: your_password<br>
 Or use H2 for development.
+</pre>
 ### 3️⃣ Run
 mvn spring-boot:run<br>
 📖 API Documentation<br>
