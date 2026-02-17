@@ -124,6 +124,7 @@ Standardized error response format:
   "status": 404,
   "timestamp": "2026-02-17T12:00:00"
 }
+```
 🧪 Testing
 
 Unit tests for service layer
