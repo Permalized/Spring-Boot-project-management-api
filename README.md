@@ -131,6 +131,7 @@ Standardized error response format:
 -Basic integration tests
 
 Mockito for mocking repositories
+---
 ## ▶️ Running the Application
 ### 1️⃣ Clone repository
 git clone https://github.com/your-username/collaborative-task-management-api.git
