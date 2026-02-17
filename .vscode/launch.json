@@ -2,11 +2,11 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-TaskManagerApplication<security>",
+            "name": "Spring Boot-TaskManagerApplication<taskManager>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "com.projects.taskManager.TaskManagerApplication",
-            "projectName": "security",
+            "projectName": "taskManager",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
