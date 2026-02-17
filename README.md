@@ -139,12 +139,12 @@ git clone https://github.com/your-username/collaborative-task-management-api.git
 <pre>
 Update application.yml:<br>
 spring:<br>
-  datasource:<br>
-    url: jdbc:postgresql://localhost:5432/taskdb<br>
-    username: your_user<br>
-    password: your_password<br>
-Or use H2 for development.
+  datasource:
+    url: jdbc:postgresql://localhost:5432/taskdb
+    username: your_user
+    password: your_password
 </pre>
+Or use H2 for development.
 ### 3️⃣ Run
 mvn spring-boot:run<br>
 📖 API Documentation<br>
