@@ -23,7 +23,7 @@ The project focuses on **clean architecture, security and proper domain modeling
 
 ## 🛠 Tech Stack
 
-- Java 17
+- Java 25
 - Spring Boot
 - Spring Web
 - Spring Data JPA (Hibernate)
@@ -151,19 +151,20 @@ http://localhost:8080/swagger-ui.html
 
 ---
 ## 🎯 Design Decisions
--Explicit join entity instead of simple ManyToMany
--DTO-based API (entities are not exposed)
--Centralized exception handling
--Authorization checks in service layer
--Clear separation of concerns
+-Explicit join entity instead of simple ManyToMany.
+-DTO-based API (entities are not exposed).
+-Centralized exception handling.
+-Authorization checks in service layer.
+-Clear separation of concerns.
+
 ---
 ## 📌 Future Improvements
--Pagination & sorting
--Audit logging
--Docker support
--CI/CD pipeline
--Refresh tokens
--Caching layer
+-Pagination & sorting.
+-Audit logging.
+-Docker support.
+-CI/CD pipeline.
+-Refresh tokens.
+-Caching layer.
 
 
 
