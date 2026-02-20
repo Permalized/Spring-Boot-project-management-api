@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 
 import com.projects.ProjectManagementAPI.config.SecurityConfiguration;
+import com.projects.ProjectManagementAPI.exceptions.ResourceNotFoundException;
 import com.projects.ProjectManagementAPI.projectMember.ProjectMember;
 import com.projects.ProjectManagementAPI.projectMember.ProjectMemberId;
 import com.projects.ProjectManagementAPI.projectMember.ProjectMemberRepository;
@@ -29,11 +30,16 @@ public class ProjectService {
     private final ProjectMemberRepository projectMemberRepository;
 
     public List<Project> findAllProjects() {
-        return repository.findAll();
+        if(repository.count() == 0) {
+            throw new ResourceNotFoundException("No projects found");
+        }
+        else {
+            return repository.findAll();
+        }
     }
 
     public Project findById(Integer id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalStateException("Project with id " + id + " not found"));
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
     }
 
     public ProjectDTO createNewProject(ProjectDTO projectDTO, Principal principal) {
