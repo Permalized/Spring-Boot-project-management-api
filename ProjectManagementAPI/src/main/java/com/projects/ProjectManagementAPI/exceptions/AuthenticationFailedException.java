@@ -6,7 +6,9 @@
 package com.projects.ProjectManagementAPI.exceptions;
 
 
-class AuthenticationFailedException extends RuntimeException {
+
+public class AuthenticationFailedException extends RuntimeException {
+    
     public AuthenticationFailedException(String message) {
         super(message);
     }

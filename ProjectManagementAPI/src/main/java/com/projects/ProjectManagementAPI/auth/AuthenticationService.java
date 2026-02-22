@@ -3,21 +3,24 @@ package com.projects.ProjectManagementAPI.auth;
 
 import java.io.IOException;
 
+import org.springframework.security.core.AuthenticationException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.projects.ProjectManagementAPI.token.Token;
+import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projects.ProjectManagementAPI.config.JwtService;
+import com.projects.ProjectManagementAPI.exceptions.AuthenticationFailedException;
+import com.projects.ProjectManagementAPI.token.Token;
 import com.projects.ProjectManagementAPI.token.TokenRepository;
 import com.projects.ProjectManagementAPI.token.TokenType;
 import com.projects.ProjectManagementAPI.user.User;
 import com.projects.ProjectManagementAPI.user.UserRepository;
-import com.fasterxml.jackson.core.exc.StreamWriteException;
-import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -57,14 +60,18 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         // Authentication logic here
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
-                request.getPassword()
-            )
-        );
+        try{
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    request.getEmail(),
+                    request.getPassword()
+             )
+        );}
+        catch(AuthenticationException e){
+            throw new AuthenticationFailedException("The email or password you entered is incorrect");
+        }
         var user=userRepository.findByEmail(request.getEmail())
-            .orElseThrow();
+            .orElseThrow(() -> new AuthenticationFailedException("The email or password you entered is incorrect"));
         var jwtToken=jwtService.generateToken(user);
         var refreshToken=jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
