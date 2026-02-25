@@ -60,13 +60,13 @@ This allows storing additional metadata such as:
 
 ---
 
-## 🔐 Security
+## 🔐 Authentication and Authorization
 
 - JWT-based authentication
+- Access Token (short-lived)
+- Refresh Token (long-lived)
 - BCrypt password hashing
 - Role-based authorization
-- Project-level access validation
-- Global exception handling
 
 Only project members can access project resources.  
 Only project owners can manage members.
@@ -74,6 +74,9 @@ Only project owners can manage members.
 ---
 
 ## 📡 REST API Endpoints
+
+### Swagger UI
+All API Endpoints are listed, documented and ready to be tested with Swagger API at http://localhost:8080/swagger-ui/index.html#/
 
 ### Authentication
 
@@ -105,7 +108,8 @@ Only project owners can manage members.
 - DELETE /api/tasks/{taskId}
 
 ### Users
-PATCH /api/v1/users
+
+ -PATCH /api/v1/users
 
 ---
 
@@ -125,16 +129,11 @@ Standardized error response format:
 
 ```json
 {
-  "message": "Project not found",
-  "status": 404,
   "timestamp": "2026-02-17T12:00:00"
+  "message": "Project not found",
+  "details": "Type of Error",
 }
 ```
-## 🧪 Testing
--Unit tests for service layer
--Exception scenario testing
--Basic integration tests
-
 Mockito for mocking repositories
 ---
 ## ▶️ Running the Application
