@@ -130,7 +130,7 @@ Standardized error response format:
 {
   "timestamp": "2026-02-17T12:00:00"
   "message": "Project not found",
-  "details": "Type of Error",
+  "details": "Type of Error"
 }
 ```
 Mockito for mocking repositories
