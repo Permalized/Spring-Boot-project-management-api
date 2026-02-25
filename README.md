@@ -77,30 +77,34 @@ Only project owners can manage members.
 
 ### Authentication
 
-POST /api/auth/register
-POST /api/auth/login
+POST /api/v1/auth/register
+POST /api/v1/auth/refresh-token
+POST /api/v1/auth/authenticate
 
 ### Projects
-GET /api/projects
-POST /api/projects
-GET /api/projects/{id}
-PUT /api/projects/{id}
-DELETE /api/projects/{id}
+
+GET /api/v1/projects/{id}
+PUT /api/v1/projects/{id}
+DELETE /api/v1/projects/{id}
+GET /api/v1/projects
+POST /api/v1/projects
 
 ### Project Members
 GET /api/projects/{projectId}/members
 POST /api/projects/{projectId}/members
-PUT /api/projects/{projectId}/members/{userId}/role
+PUT /api/projects/{projectId}/members/{userId}/updateRole
 DELETE /api/projects/{projectId}/members/{userId}
 
 ### Tasks
 GET /api/projects/{projectId}/tasks
 POST /api/projects/{projectId}/tasks
-GET /api/tasks/{taskId}
 PUT /api/tasks/{taskId}
 PATCH /api/tasks/{taskId}/status
 PATCH /api/tasks/{taskId}/assign
 DELETE /api/tasks/{taskId}
+
+### Users
+PATCH /api/v1/users
 
 ---
 
@@ -111,8 +115,8 @@ Custom exceptions:
 - ResourceNotFoundException
 - DuplicateResourceException
 - UnauthorizedActionException
-- InvalidStateException
-- BadRequestException
+- AuthenticationFailedException
+
 
 All exceptions are handled via a global `@RestControllerAdvice`.
 
