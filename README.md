@@ -108,7 +108,7 @@ All API Endpoints are listed, documented and ready to be tested with Swagger API
 
 ### Users
 
- -PATCH /api/v1/users
+ - PATCH /api/v1/users
 
 ---
 
