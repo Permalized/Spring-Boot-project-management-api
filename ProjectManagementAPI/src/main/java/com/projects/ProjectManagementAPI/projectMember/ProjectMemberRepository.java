@@ -8,5 +8,5 @@ public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Pr
 
     Set<ProjectMember> findByProjectId(Integer projectId);
 
-    Set<ProjectMember> findByUserId(Integer userId);
+    Set<ProjectMember> findAllByUserId(Integer userId);
 }

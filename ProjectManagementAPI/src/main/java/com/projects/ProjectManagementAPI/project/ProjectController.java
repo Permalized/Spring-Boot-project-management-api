@@ -36,16 +36,18 @@ public class ProjectController {
         ProjectDTO savedProject=service.createNewProject(projectDTO, principal);
         return ResponseEntity.ok(savedProject);
     }
+    //Members can view project details, but not update or delete
     @GetMapping("/{id}")
     public Project getProjectById(@PathVariable Integer id) {
         return service.findById(id);
     }
+    //Owner can update project details, but not members or tasks
     @PutMapping("/{id}")
     public ResponseEntity<ProjectDTO> updateExistingProject(@RequestBody ProjectDTO projectDTO, @PathVariable Integer id) {
         ProjectDTO updatedProject = service.updateExistingProject(projectDTO, id);
         return ResponseEntity.ok(updatedProject);
     }
-
+    //Owner can delete project, but not members or tasks
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProject(@PathVariable Integer id) {
         service.deleteById(id);

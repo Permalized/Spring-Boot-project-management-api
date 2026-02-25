@@ -3,11 +3,10 @@ package com.projects.ProjectManagementAPI.auth;
 
 import java.io.IOException;
 
-import org.springframework.security.core.AuthenticationException;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +15,7 @@ import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projects.ProjectManagementAPI.config.JwtService;
 import com.projects.ProjectManagementAPI.exceptions.AuthenticationFailedException;
+import com.projects.ProjectManagementAPI.exceptions.DuplicateResourceException;
 import com.projects.ProjectManagementAPI.token.Token;
 import com.projects.ProjectManagementAPI.token.TokenRepository;
 import com.projects.ProjectManagementAPI.token.TokenType;
@@ -46,6 +46,9 @@ public class AuthenticationService {
         .role(request.getRole())
         .build();
         
+        if(userRepository.findByEmail(request.getEmail()).isPresent()){
+            throw new DuplicateResourceException("A user with this email already exists");
+        }
         var savedUser=userRepository.save(user);
         var jwtToken=jwtService.generateToken(user);
         var refreshToken=jwtService.generateRefreshToken(user);

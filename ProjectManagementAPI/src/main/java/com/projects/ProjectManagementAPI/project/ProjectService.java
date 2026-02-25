@@ -2,17 +2,17 @@ package com.projects.ProjectManagementAPI.project;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.projects.ProjectManagementAPI.config.SecurityConfiguration;
 import com.projects.ProjectManagementAPI.exceptions.ResourceNotFoundException;
+import com.projects.ProjectManagementAPI.exceptions.UnauthorizedActionException;
 import com.projects.ProjectManagementAPI.projectMember.ProjectMember;
 import com.projects.ProjectManagementAPI.projectMember.ProjectMemberId;
 import com.projects.ProjectManagementAPI.projectMember.ProjectMemberRepository;
+import com.projects.ProjectManagementAPI.projectMember.ProjectMemberService;
 import com.projects.ProjectManagementAPI.projectMember.ProjectRole;
-import com.projects.ProjectManagementAPI.user.User;
 import com.projects.ProjectManagementAPI.user.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -28,18 +28,26 @@ public class ProjectService {
     private final ProjectMapper mapper;
     private final UserRepository  userRepository;
     private final ProjectMemberRepository projectMemberRepository;
+    private final ProjectMemberService projectMemberService;
 
     public List<Project> findAllProjects() {
-        if(repository.count() == 0) {
-            throw new ResourceNotFoundException("No projects found");
+        var userId=securityConfiguration.getUserIdFromSecurityContextHolder().orElseThrow(() -> new IllegalStateException("User not found in security context"));
+        if(projectMemberRepository.findAllByUserId(userId).isEmpty()) {
+            throw new ResourceNotFoundException("No projects found for user with id: " + userId);
         }
         else {
-            return repository.findAll();
+            return projectMemberRepository.findAllByUserId(userId).stream().map(ProjectMember::getProject).toList();
         }
     }
 
     public Project findById(Integer id) {
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
+        var userId=securityConfiguration.getUserIdFromSecurityContextHolder().orElseThrow(() -> new IllegalStateException("User not found in security context"));
+        if(projectMemberRepository.findById(new ProjectMemberId(id, userId)).isEmpty()) {
+            throw new ResourceNotFoundException("Project with id " + id + " not found for user with id: " + userId);
+        }
+        else {
+            return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
+        }
     }
 
     public ProjectDTO createNewProject(ProjectDTO projectDTO, Principal principal) {
@@ -65,6 +73,14 @@ public class ProjectService {
     }
 
     public ProjectDTO updateExistingProject(ProjectDTO projectDTO, Integer id) {
+        var userId=securityConfiguration.getUserIdFromSecurityContextHolder().orElseThrow(() -> new IllegalStateException("User not found in security context"));
+        if(!projectMemberService.isUserProjectMember(id, userId)) {
+            throw new ResourceNotFoundException("Project with id " + id + " not found for user with id: " + userId);
+        }
+        if(!projectMemberService.isUserOwnerOfProject(id, userId)) {
+            throw new UnauthorizedActionException("User with id: " + userId + " is not the owner of project with id: " + id);
+        }
+
         return repository.findById(id).map(project -> {
             project.setName(projectDTO.name());
             project.setDescription(projectDTO.description());
@@ -73,25 +89,16 @@ public class ProjectService {
     }
 
     public void deleteById(Integer id) {
-        repository.findById(id).orElseThrow(() -> new IllegalStateException("Project with id " + id + " not found"));
+        
+        var userId=securityConfiguration.getUserIdFromSecurityContextHolder().orElseThrow(() -> new IllegalStateException("User not found in security context"));
+        if(!projectMemberService.isUserProjectMember(id, userId)) {
+            throw new ResourceNotFoundException("Project with id " + id + " not found for user with id: " + userId);
+        }
+        else if(!projectMemberService.isUserOwnerOfProject(id, userId)) {
+            throw new UnauthorizedActionException("User with id: " + userId + " is not the owner of project with id: " + id);
+        }
         repository.deleteById(id);
     }
 
-    public Set<ProjectMember> addProjectMember(Project project, User user, ProjectRole role) {
-         ProjectMemberId id = ProjectMemberId.builder()
-            .projectId(project.getId())
-            .userId(user.getId())
-            .build();
-        ProjectMember newMember = 
-        ProjectMember.builder()
-            .id(id)
-            .project(project)
-            .user(user)
-            .role(role != null ? role : ProjectRole.MEMBER)
-            .build();
-        project.getMembers().add(newMember);
-        repository.save(project);
-        return project.getMembers();
-
- }
+ 
 }

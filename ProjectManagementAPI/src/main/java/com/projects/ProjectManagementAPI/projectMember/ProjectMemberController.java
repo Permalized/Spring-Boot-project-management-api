@@ -19,21 +19,22 @@ import lombok.AllArgsConstructor;
 public class ProjectMemberController {
     private final ProjectMemberService service;
 
+    //Members can view project members, but not update or delete
     @GetMapping("/api/v1/projects/{projectId}/members")
     public Set<toProjectMemberInfo> getProjectMembers(@PathVariable Integer projectId) {
         return service.getProjectMembers(projectId);
     }
-
+    //Owner can add project members
     @PostMapping("/api/v1/projects/{projectId}/members")
     public ResponseEntity<String> addProjectMember(@PathVariable Integer projectId, @RequestBody MemberInfoRequest request) {
         return ResponseEntity.ok(service.addProjectMember(projectId, request));
     }
-
+    //Owner can update project member role
     @PutMapping("/api/v1/projects/{projectId}/{userId}/updateRole")
     public ProjectMember updateProjectMember(@PathVariable Integer projectId, @PathVariable Integer userId, @RequestBody ProjectRole role) {
         return service.updateProjectMember(projectId, userId, role);
     }
-
+    //Owner can remove project member
     @DeleteMapping("/api/v1/projects/{projectId}/members/{userId}")
     public void removeProjectMember(@PathVariable Integer projectId, @PathVariable Integer userId) {
         service.removeProjectMember(projectId, userId);
