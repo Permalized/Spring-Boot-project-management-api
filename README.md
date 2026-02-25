@@ -33,7 +33,6 @@ The project focuses on **clean architecture, security and proper domain modeling
 - Lombok
 - Maven
 - OpenAPI / Swagger
-- JUnit & Mockito
 
 ---
 
@@ -60,13 +59,13 @@ This allows storing additional metadata such as:
 
 ---
 
-## 🔐 Security
+## 🔐 Authentication and Authorization
 
 - JWT-based authentication
+- Access Token (short-lived)
+- Refresh Token (long-lived)
 - BCrypt password hashing
 - Role-based authorization
-- Project-level access validation
-- Global exception handling
 
 Only project members can access project resources.  
 Only project owners can manage members.
@@ -75,32 +74,41 @@ Only project owners can manage members.
 
 ## 📡 REST API Endpoints
 
+### Swagger UI
+All API Endpoints are listed, documented and ready to be tested with Swagger API at http://localhost:8080/swagger-ui/index.html#/
+
 ### Authentication
 
-POST /api/auth/register
-POST /api/auth/login
+- POST /api/v1/auth/register
+- POST /api/v1/auth/refresh-token
+- POST /api/v1/auth/authenticate
 
 ### Projects
-GET /api/projects
-POST /api/projects
-GET /api/projects/{id}
-PUT /api/projects/{id}
-DELETE /api/projects/{id}
+
+- GET /api/v1/projects/{id}
+- PUT /api/v1/projects/{id}
+- DELETE /api/v1/projects/{id}
+- GET /api/v1/projects
+- POST /api/v1/projects
 
 ### Project Members
-GET /api/projects/{projectId}/members
-POST /api/projects/{projectId}/members
-PUT /api/projects/{projectId}/members/{userId}/role
-DELETE /api/projects/{projectId}/members/{userId}
+
+- GET /api/projects/{projectId}/members
+- POST /api/projects/{projectId}/members
+- PUT /api/projects/{projectId}/members/{userId}/updateRole
+- DELETE /api/projects/{projectId}/members/{userId}
 
 ### Tasks
-GET /api/projects/{projectId}/tasks
-POST /api/projects/{projectId}/tasks
-GET /api/tasks/{taskId}
-PUT /api/tasks/{taskId}
-PATCH /api/tasks/{taskId}/status
-PATCH /api/tasks/{taskId}/assign
-DELETE /api/tasks/{taskId}
+- GET /api/projects/{projectId}/tasks
+- POST /api/projects/{projectId}/tasks
+- PUT /api/tasks/{taskId}
+- PATCH /api/tasks/{taskId}/status
+- PATCH /api/tasks/{taskId}/assign
+- DELETE /api/tasks/{taskId}
+
+### Users
+
+ -PATCH /api/v1/users
 
 ---
 
@@ -111,8 +119,8 @@ Custom exceptions:
 - ResourceNotFoundException
 - DuplicateResourceException
 - UnauthorizedActionException
-- InvalidStateException
-- BadRequestException
+- AuthenticationFailedException
+
 
 All exceptions are handled via a global `@RestControllerAdvice`.
 
@@ -120,16 +128,11 @@ Standardized error response format:
 
 ```json
 {
-  "message": "Project not found",
-  "status": 404,
   "timestamp": "2026-02-17T12:00:00"
+  "message": "Project not found",
+  "details": "Type of Error"
 }
 ```
-## 🧪 Testing
--Unit tests for service layer
--Exception scenario testing
--Basic integration tests
-
 Mockito for mocking repositories
 ---
 ## ▶️ Running the Application
@@ -162,10 +165,8 @@ http://localhost:8080/swagger-ui.html
 ---
 ## 📌 Future Improvements
 - Pagination & sorting
-- Audit logging
 - Docker support
 - CI/CD pipeline
-- Refresh tokens
 - Caching layer
 
 
