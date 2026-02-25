@@ -33,7 +33,6 @@ The project focuses on **clean architecture, security and proper domain modeling
 - Lombok
 - Maven
 - OpenAPI / Swagger
-- JUnit & Mockito
 
 ---
 
@@ -166,10 +165,8 @@ http://localhost:8080/swagger-ui.html
 ---
 ## 📌 Future Improvements
 - Pagination & sorting
-- Audit logging
 - Docker support
 - CI/CD pipeline
-- Refresh tokens
 - Caching layer
 
 
